@@ -4,11 +4,33 @@
   <title>Failure-to-Lunch</title>
 </head>
 <body>
-  Add Favorite
-  <form method="POST" action='/'>
-    <input name="restName" type="text" placeholder="Restaurant"></input>
-    <input name="phoneNumber" type="text" placeholder="phone#"></input>
-    <input type='submit' value="submit">
-  </form>
+  <div id="app">
+  </div>
+  Add Favorite Restaurant
+  <main id="root">
+    <form method="POST" action='/'>
+      <input name="restName" type="text" placeholder="Restaurant"></input>
+      <input name="phoneNumber" type="text" placeholder="phone#"></input>
+      <input type='submit' value="submit">
+    </form>
+    <br>
+    Update Favorite Restaurant Name
+    <form method="POST" action="/update">
+      <input name="restName" type="text" placeholder="Restaurant"></input>
+      <input name="updateName" type="text" placeholder="Name to Update to"></input>
+      <input type='submit' value="submit">
+    </form>
+    <br>
+    Delete a Favorite Restaurant
+    <form method="POST" action="/delete">
+      <input name="deleteName" type="text" placeholder="Restaurant to delete"></input>
+      <input type='submit' value="submit">
+    </form>
+    <br>
+    <form method="GET" action="/restaurants">
+      <input type='submit' value="What's for Lunch?">
+    </form>
+    <script src="../dist/bundle.js"></script> 
+  </main>
 </body>
 </html>
