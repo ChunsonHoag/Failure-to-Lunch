@@ -23,28 +23,35 @@ restaurantController.getAllRestaurants = (req, res, next) => {
         return next();
     })
 }
+
 //get random restaurant
 restaurantController.getRandomRestaurant = (req, res, next) => {
-   let length = res.locals.restaurants.length;
-   let randomNumber = Math.floor(Math.random() * Math.floor(length));
-   res.locals.todaysLunch = res.locals.restaurants[randomNumber];
+    let length = res.locals.restaurants.length;
+    let randomNumber = Math.floor(Math.random() * Math.floor(length));
+    res.locals.todaysLunch = res.locals.restaurants[randomNumber];
 //    console.log(`Today's takeout spot is ${res.locals.todaysLunch.restaurantName}`);
-   return next();
+    return next();
 }
+
 //update restaurant
 restaurantController.updateRestaurantName = (req, res, next) => {
-    Restaurant.findOneAndUpdate({restaurantName: req.body.restName},{restaurantName: req.body.updateName}, (err, restaurants) => {
-        if (err) return res.status(400).send('error getting  all restaurants');
-         console.log(`successfully updated ${req.body.updateName}`);
+    const {restName, updateName} = req.body;
+    Restaurant.updateOne({restaurantName: restName},{restaurantName: updateName}, (err, result) => {
+        if (err) return res.status(400).send('error updating restaurant');
+        if (result.nModified === 0) return res.status(404).send(`${restName} does not exist or couldn't be updated`);
         return next();
     });
 }
 
-delete restaurant
+// delete restaurant
 restaurantController.deleteRestaurant = (req, res, next) => {
-    Restaurant.findOneAndDelete({restaurantName: req.body.deleteName}, (err, restaurants) => {
-        if (err) return res.status(400).send('error getting  all restaurants');
-         console.log(`successfully deleted ${req.body.updateName}`);
+    const {deleteName} = req.body;
+    Restaurant.deleteOne({restaurantName: deleteName}, (err, result) => {
+        if (err) {
+            console.log('Error deleting student');
+            return res.status(400).send(`${deleteName} does not exist`);
+        };
+        if(result.deletedCount === 0) return res.status(404).send(`${deleteName} does not exist`);
         return next();
     });
 }
